@@ -1,50 +1,49 @@
-use anyhow::*;
-use std::fs::File;
-use std::io::{BufRead, BufReader};
-use code_timing_macros::time_snippet;
-use const_format::concatcp;
 use adv_code_2024::*;
-
-const DAY: &str = "NN"; // TODO: Fill the day
-const INPUT_FILE: &str = concatcp!("input/", DAY, ".txt");
+use anyhow::*;
+use log::LevelFilter;
+const DAY: &str = "02";
 
 const TEST: &str = "\
-<TEST-INPUT>
-"; // TODO: Add the test input
+// Test data here
+";
 
-fn main() -> Result<()> {
-    start_day(DAY);
+struct Day2;
 
-    //region Part 1
-    println!("=== Part 1 ===");
-
-    fn part1<R: BufRead>(reader: R) -> Result<usize> {
-        // TODO: Solve Part 1 of the puzzle
-        let answer = reader.lines().flatten().count();
-        Ok(answer)
+impl Solution<i32> for Day2 {
+    fn part1(&self, _input: InputData) -> Option<i32> {
+        None
     }
 
-    // TODO: Set the expected answer for the test input
-    assert_eq!(0, part1(BufReader::new(TEST.as_bytes()))?);
+    fn part2(&self, _input: InputData) -> Option<i32> {
+        None
+    }
 
-    let input_file = BufReader::new(File::open(INPUT_FILE)?);
-    let result = time_snippet!(part1(input_file)?);
-    println!("Result = {}", result);
-    //endregion
+    fn day() -> &'static str {
+        DAY
+    }
+}
 
-    //region Part 2
-    // println!("\n=== Part 2 ===");
-    //
-    // fn part2<R: BufRead>(reader: R) -> Result<usize> {
-    //     Ok(0)
-    // }
-    //
-    // assert_eq!(0, part2(BufReader::new(TEST.as_bytes()))?);
-    //
-    // let input_file = BufReader::new(File::open(INPUT_FILE)?);
-    // let result = time_snippet!(part2(input_file)?);
-    // println!("Result = {}", result);
-    //endregion
+fn main() -> Result<()> {
+    simple_logging::log_to_file("test.log", LevelFilter::Info)?;
+
+    start_day(DAY);
+
+    let solution = Day2 {};
+
+    solution.run_tests_part1(TEST, 2);
+
+    solution.run_part_1()?;
+
+    solution.run_tests_part2(TEST, 4);
+
+    solution.run_part_2()?;
+    // solution.run_part_2()?;
 
     Ok(())
+}
+
+#[cfg(test)]
+mod test {
+
+    // tests
 }
